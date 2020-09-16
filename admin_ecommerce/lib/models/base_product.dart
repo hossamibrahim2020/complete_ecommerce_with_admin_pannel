@@ -1,6 +1,6 @@
 abstract class BaseProduct 
 {
-  String name;
-  double price;
-  String descriptoin;
+  final String name = 'ProductName';
+  final String price = 'ProductPrice';
+  final String descriptoin = 'ProductDescription';
 }

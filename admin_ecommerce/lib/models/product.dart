@@ -2,7 +2,7 @@ import 'base_product.dart';
 
 class Product extends BaseProduct
 {
-  double tax;
-  final DateTime dateOfPublish = DateTime.now();
-  String image;
+  final String tax = 'ProductTax';
+  final String dateOfPublish ='ProductdateOfPublish';
+  final String image = 'ProductImage';
 }

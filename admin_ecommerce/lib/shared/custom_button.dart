@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             minWidth: double.infinity,
             height: 50,
-            onPressed: onPress,
+            onPressed:(){onPress();},
             child: Text(
               label,
               style: Theme.of(context)

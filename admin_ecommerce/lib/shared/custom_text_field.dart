@@ -6,7 +6,8 @@ class CustomTextField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final TextInputType keyboardType;
-  const CustomTextField(this.label, this.icon, this.controller, this.keyboardType);
+  const CustomTextField(
+      this.label, this.icon, this.controller, this.keyboardType);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,6 +26,12 @@ class CustomTextField extends StatelessWidget {
         ),
         controller: controller,
         keyboardType: keyboardType,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter $label';
+          }
+          return null;
+        },
       ),
     );
   }

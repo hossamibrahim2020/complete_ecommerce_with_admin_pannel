@@ -1,3 +1,7 @@
+import '../../models/admin.dart';
+import '../../models/product.dart';
+import '../../shared/firebase_keys.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../shared/constants.dart';
 import '../../shared/custom_text_field.dart';
 import '../../shared/theme.dart';
@@ -13,8 +17,23 @@ class EditView extends StatefulWidget {
 }
 
 class _EditViewState extends State<EditView> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _taxController = TextEditingController();
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _priceController.dispose();
+    _taxController.dispose();
+    super.dispose();
+  }
+
   EditSrc _editSrc = EditSrc();
   AddSrc _addSrc = AddSrc();
+  final Product _product = Product();
+  final Admin _admin = Admin();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,22 +46,46 @@ class _EditViewState extends State<EditView> {
   }
 
   Widget _body(BuildContext context) {
-    return GridView(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      children: <Widget>[
-        _item(
-          context: context,
-          src: 'https://flutter.dev/images/flutter-logo-sharing.png',
-          title: 'title',
-          price: '231',
-          presstoEdit: () {
-            _openConfermationDialoge(context, () {
-              print('edit');
-            });
-          },
-        ),
-      ],
+    return StreamBuilder<QuerySnapshot>(
+      stream:
+          FirebaseFirestore.instance.collection(productCollection).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        if (snapshot.hasData) {
+          return GridView(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            children: snapshot.data.docs.map((e) {
+              final Map<String, dynamic> _data = e.data();
+              return _item(
+                context: context,
+                src: _data[_product.image],
+                title: _data[_product.name],
+                price: _data[_product.price],
+                presstoEdit: () {
+                  _openConfermationDialoge(
+                    context,
+                    () async {
+                      await _admin.editProduct(
+                        context,
+                        _nameController.text,
+                        _priceController.text,
+                        _descriptionController.text,
+                        _taxController.text,
+                        _data[_product.image],
+                        e,
+                      );
+                      Navigator.of(context).pop();
+                    },
+                  );
+                },
+              );
+            }).toList(),
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 
@@ -89,25 +132,25 @@ class _EditViewState extends State<EditView> {
                 CustomTextField(
                   _addSrc.name,
                   Icons.text_fields,
-                  null,
+                  _nameController,
                   TextInputType.text,
                 ),
                 CustomTextField(
                   _addSrc.description,
                   Icons.description,
-                  null,
+                  _descriptionController,
                   TextInputType.text,
                 ),
                 CustomTextField(
                   _addSrc.price,
                   Icons.monetization_on,
-                  null,
+                  _priceController,
                   TextInputType.numberWithOptions(),
                 ),
                 CustomTextField(
                   _addSrc.tax,
                   Icons.attach_money,
-                  null,
+                  _taxController,
                   TextInputType.numberWithOptions(),
                 ),
               ],

@@ -1,3 +1,7 @@
+import '../../models/admin.dart';
+import '../../models/product.dart';
+import 'package:adminecommerce/shared/firebase_keys.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../shared/constants.dart';
 import '../../shared/theme.dart';
 import '../reusable_drawer/reusable_drawer_view.dart';
@@ -7,6 +11,8 @@ import 'delete_src.dart';
 class DeleteView extends StatelessWidget {
   static const id = '/delete';
   final DeleteSrc _deleteSrc = DeleteSrc();
+  final Product _product = Product();
+  final Admin _admin = Admin();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,25 +25,38 @@ class DeleteView extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    return GridView(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      children: <Widget>[
-        _item(
-          context: context,
-          src: 'https://flutter.dev/images/flutter-logo-sharing.png',
-          title: 'title',
-          price: '231',
-          presstoDelete: () {
-            _openConfermationDialoge(
-              context,
-              () {
-                print('delete');
-              },
-            );
-          },
-        ),
-      ],
+    return StreamBuilder<QuerySnapshot>(
+      stream:
+          FirebaseFirestore.instance.collection(productCollection).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        if (snapshot.hasData) {
+          return GridView(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            children: snapshot.data.docs.map((e) {
+              final Map<String, dynamic> _data = e.data();
+              return _item(
+                context: context,
+                src: _data[_product.image],
+                title: _data[_product.name],
+                price: _data[_product.price],
+                presstoDelete: () {
+                  _openConfermationDialoge(
+                    context,
+                    () async {
+                      await _admin.deleteProduct(e);
+                      Navigator.of(context).pop();
+                    },
+                  );
+                },
+              );
+            }).toList(),
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 
@@ -76,20 +95,20 @@ class DeleteView extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete'),
-          content: Text('Are You Sure?!!'),
+          title: Text(_deleteSrc.title),
+          content: Text(_deleteSrc.questoin),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancle', style: blueGrayTextStyle),
+              child: Text(_deleteSrc.cancle, style: blueGrayTextStyle),
             ),
             FlatButton(
               color: deleteColor,
               onPressed: delete,
               child: Text(
-                'Delete',
+                _deleteSrc.title,
                 style: whiteTextStyle,
               ),
             ),

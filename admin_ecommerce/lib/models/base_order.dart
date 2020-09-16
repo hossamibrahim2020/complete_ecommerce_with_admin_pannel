@@ -1,4 +1,4 @@
 abstract class BaseOrder
 {
-  double totalPrice;
+  final String totalPrice = 'totalPrice';
 }
