@@ -1,19 +1,5 @@
-import 'ican_regester.dart';
-import 'ican_sigin.dart';
-import 'ican_sigout.dart';
+import '../view/signin/i_can_sign_in_viewmodel.dart';
+import '../view/signup/i_can_signup_viewmodel.dart';
 import 'base_user.dart';
 
-class Customer extends BaseUser implements ICanRegester,ICanSigin,ICanSigout
-{
-  @override
-  void regester() 
-  {}
-
-  @override
-  void sigin() 
-  {}
-
-  @override
-  void sigout() 
-  {}
-}
+class Customer extends BaseUser with ICanSignIn, ICanSignUP {}

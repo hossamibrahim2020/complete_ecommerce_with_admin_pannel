@@ -1,4 +1,4 @@
-import '../shared/theme.dart';
+import '../theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -6,8 +6,14 @@ class CustomTextField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final bool onbscure;
   const CustomTextField(
-      this.label, this.icon, this.controller, this.keyboardType);
+    this.label,
+    this.icon,
+    this.controller,
+    this.keyboardType,
+    this.onbscure,
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,6 +38,7 @@ class CustomTextField extends StatelessWidget {
           }
           return null;
         },
+        obscureText: onbscure,
       ),
     );
   }

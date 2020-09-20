@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-final theme = ThemeData(
-  primaryColor: Colors.teal,
-  accentColor: Colors.teal,
+final ThemeData theme = ThemeData(
+  primaryColor: Colors.blueGrey,
+  accentColor: Colors.blueGrey,
   visualDensity: VisualDensity.adaptivePlatformDensity,
 );
 
-final Color textFieldColor = Colors.teal.shade50;
-final Color imageColor = Colors.teal.shade100;
+final Color textFieldColor = Colors.blueGrey.shade50;
 final Color textColor = Colors.white;
-final Color deleteColor = Colors.red;
+final Color unSelectexItemColor = Colors.blueGrey;
