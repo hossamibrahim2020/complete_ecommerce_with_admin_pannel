@@ -91,62 +91,87 @@ class _HomeViewState extends State<HomeView> {
 
   /// ReDesign of app
   Widget _homeContent(
-      AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
+    AsyncSnapshot<QuerySnapshot> snapshot,
+    BuildContext context,
+  ) {
     final List<QueryDocumentSnapshot> _listOfData = snapshot.data.docs;
-    return GridView(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      children: _listOfData
-          .map(
-            (e) => Card(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DetailView(e),
-                    ),
-                  );
-                },
-                child: GridTile(
-                  footer: Container(
-                    alignment: Alignment.bottomCenter,
-                    color: Theme.of(context).primaryColor.withOpacity(.4),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '${e.data()[name]}',
-                              style: titleStyle,
-                            ),
-                            Text(
-                              '${e.data()[price]} \$',
-                              style: titleStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+    return TweenAnimationBuilder(
+      curve: Curves.ease,
+      tween: IntTween(begin: -120, end: 0),
+      duration: Duration(seconds: 1),
+      builder: (BuildContext context, int value, Widget child) {
+        return Transform.translate(
+          offset: Offset(value.toDouble(), 0),
+          child: TweenAnimationBuilder(
+            curve: Curves.ease,
+            tween: Tween<double>(begin: 0, end: 1),
+            duration: Duration(seconds: 3),
+            builder: (BuildContext context, double valueOfOpacity, Widget child) {
+              return Opacity(
+                opacity: valueOfOpacity,
+                child: GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
                   ),
-                  child: Hero(
-                    tag: '${e.data()[name]}',
-                    child: Center(
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(),
+                  children: _listOfData.map(
+                    (e) {
+                      return Card(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DetailView(e),
+                              ),
+                            );
+                          },
+                          child: GridTile(
+                            footer: Container(
+                              alignment: Alignment.bottomCenter,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(.4),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        '${e.data()[name]}',
+                                        style: titleStyle,
+                                      ),
+                                      Text(
+                                        '${e.data()[price]} \$',
+                                        style: titleStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            child: Hero(
+                              tag: '${e.data()[name]}',
+                              child: Center(
+                                child: CachedNetworkImage(
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  imageUrl: '${e.data()[image]}',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        imageUrl: '${e.data()[image]}',
-                      ),
-                    ),
-                  ),
+                      );
+                    },
+                  ).toList(),
                 ),
-              ),
-            ),
-          )
-          .toList(),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

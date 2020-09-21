@@ -6,6 +6,7 @@ import 'shared/theme.dart';
 import 'view/auth/auth_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'view/detail/count_of_it_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<IsLoding>(
           create: (BuildContext context) {
             return IsLoding();
+          },
+        ),
+        ChangeNotifierProvider<CountOfItProvider>(
+          create: (BuildContext context) {
+            return CountOfItProvider();
           },
         ),
       ],
