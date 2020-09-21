@@ -1,5 +1,5 @@
-import 'package:ecommerce/models/is_loding_provider.dart';
-import 'package:ecommerce/view/home/home_view.dart';
+import 'models/is_loding_provider.dart';
+import 'view/home/home_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'shared/theme.dart';
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Shop',
+        debugShowCheckedModeBanner: false,
         theme: theme,
         home: home,
       ),

@@ -1,5 +1,6 @@
-import 'package:ecommerce/models/customer.dart';
-import 'package:ecommerce/models/is_loding_provider.dart';
+import '../../models/customer.dart';
+import '../../models/is_loding_provider.dart';
+import '../../shared/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../shared/widget/custom_button.dart';
@@ -36,7 +37,7 @@ class _SignUPViewState extends State<SignUPView> {
                 color: Colors.black,
               ),
               elevation: 0.0,
-              title: Text(_label),
+              title: Text(_label,style: blueGrayTextStyle,),
             ),
       body: _isLoding.isLoding
           ? Center(child: CircularProgressIndicator())

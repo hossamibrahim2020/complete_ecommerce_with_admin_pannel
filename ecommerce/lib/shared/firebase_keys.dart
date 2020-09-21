@@ -15,3 +15,8 @@ const String productNames = 'productsNames';
 const String userLocation = 'userLocation';
 const String done = 'done';
 const String totalPrice = 'totalPrice';
+
+/// messages
+const String messages = 'messages';
+const String emailkeyForMessage = 'emailkey';
+const String messagekey = 'messageKey';

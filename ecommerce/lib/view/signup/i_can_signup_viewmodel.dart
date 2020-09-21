@@ -1,5 +1,5 @@
-import 'package:ecommerce/models/is_loding_provider.dart';
-import 'package:ecommerce/view/home/home_view.dart';
+import '../../models/is_loding_provider.dart';
+import '../../view/home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
