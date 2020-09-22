@@ -1,5 +1,5 @@
+import '../../view/navigation/bottom_navigation_view.dart';
 import '../../models/is_loding_provider.dart';
-import '../../view/home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +24,12 @@ abstract class ICanSignUP {
       if (userCredential != null) {
         // true mean user is auth
         _prefs.setBool('seen', true);
-        return Navigator.of(context).push(
+        _isLoding.notLoding();
+        return Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomeView(),
+            builder: (context) => BottomNavigationView(),
           ),
+          (route) => false,
         );
       } else {
         _isLoding.notLoding();

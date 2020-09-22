@@ -1,10 +1,10 @@
 import '../../models/customer.dart';
 import '../../models/is_loding_provider.dart';
-import '../../shared/constants.dart';
+import '../shared/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../shared/widget/custom_button.dart';
-import '../../shared/widget/custom_text_field.dart';
+import '../shared/widget/custom_button.dart';
+import '../shared/widget/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class SignUPView extends StatefulWidget {
@@ -37,7 +37,10 @@ class _SignUPViewState extends State<SignUPView> {
                 color: Colors.black,
               ),
               elevation: 0.0,
-              title: Text(_label,style: blueGrayTextStyle,),
+              title: Text(
+                _label,
+                style: tealTextStyle,
+              ),
             ),
       body: _isLoding.isLoding
           ? Center(child: CircularProgressIndicator())

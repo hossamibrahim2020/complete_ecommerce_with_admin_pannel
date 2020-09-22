@@ -1,8 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import '../../shared/theme.dart';
 import '../../view/signin/signin_view.dart';
-import '../../shared/widget/custom_button.dart';
-import '../../shared/widget/reusable_backgraound_image.dart';
+import '../shared/widget/custom_button.dart';
+import '../shared/widget/reusable_backgraound_image.dart';
 import 'package:flutter/material.dart';
 import '../signup/signup_view.dart';
 
@@ -32,7 +31,12 @@ class AuthView extends StatelessWidget {
                   SizedBox(width: 20.0, height: 100.0),
                   Text(
                     'Be',
-                    style: TextStyle(fontSize: 43.0, color: textColor),
+                    style: TextStyle(
+                      fontSize: 43.0,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'hind',
+                    ),
                   ),
                   SizedBox(width: 20.0, height: 100.0),
                   RotateAnimatedTextKit(
@@ -40,7 +44,12 @@ class AuthView extends StatelessWidget {
                       print("Tap Event");
                     },
                     text: ['FASHON', 'AWESOME', 'DIFFERENT'],
-                    textStyle: TextStyle(fontSize: 40.0, color: textColor),
+                    textStyle: TextStyle(
+                      fontSize: 40.0,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'hind',
+                    ),
                     textAlign: TextAlign.start,
                   ),
                 ],

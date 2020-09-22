@@ -10,11 +10,16 @@ class CountOfItProvider extends ChangeNotifier {
   }
 
   void removeOne(BuildContext context) {
-    if (_count > 0) {
+    if (_count > 1) {
       _count--;
     } else {
       Toast.show('Can not decrement it', context);
     }
+    notifyListeners();
+  }
+
+  void returnCountToOne(){
+    _count = 1;
     notifyListeners();
   }
 }

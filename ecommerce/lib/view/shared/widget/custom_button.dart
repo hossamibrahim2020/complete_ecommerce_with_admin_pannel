@@ -26,7 +26,7 @@ class CustomRadiusButton extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(color: textColor),
+                  .copyWith(color: textColor,fontFamily: 'hind'),
             ),
           ),
           width: double.infinity,

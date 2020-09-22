@@ -1,5 +1,5 @@
 import 'package:ecommerce/models/is_loding_provider.dart';
-import '../home/home_view.dart';
+import '../navigation/bottom_navigation_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,10 +23,12 @@ abstract class ICanSignIn {
       if (userCredential != null) {
         // true mean user is auth
         _prefs.setBool('seen', true);
-        return Navigator.of(context).push(
+        _isLoding.notLoding();
+        return Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomeView(),
+            builder: (context) => BottomNavigationView(),
           ),
+          (route) => false,
         );
       } else {
         _isLoding.notLoding();

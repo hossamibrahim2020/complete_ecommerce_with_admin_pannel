@@ -35,9 +35,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   fonts:
-    - family: mainfont
+    - family: hind
       fonts:
-        - asset: assets/fonts/GrenzeGotisch-VariableFont_wght.ttf
+        - asset: assets/fonts/Hind-Medium.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
