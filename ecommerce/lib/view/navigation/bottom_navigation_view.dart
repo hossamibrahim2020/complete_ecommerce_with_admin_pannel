@@ -45,24 +45,24 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
     return Scaffold(
       // TODO: add search for
       appBar: _isLoding.isLoding ? null : _appBar(context),
-      body: _isLoding.isLoding ? Center(child: CircularProgressIndicator()) : _screen.elementAt(_currentIndex),
+      body: _isLoding.isLoding
+          ? Center(child: CircularProgressIndicator())
+          : _screen.elementAt(_currentIndex),
       bottomNavigationBar: _isLoding.isLoding ? null : _bottomNavigationBar(),
     );
   }
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       centerTitle: true,
       title: Text(
         _title.elementAt(_currentIndex),
-        style: tealTextStyle,
+        style: whiteTextStyle.copyWith(fontSize: 25),
       ),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.exit_to_app,
-            color: Theme.of(context).primaryColor,
           ),
           onPressed: () {
             _customer.signOut(context);
@@ -72,7 +72,6 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
       leading: IconButton(
         icon: Icon(
           Icons.chat,
-          color: Theme.of(context).primaryColor,
         ),
         onPressed: () {
           _openDialogeToSendMessage(context, () {

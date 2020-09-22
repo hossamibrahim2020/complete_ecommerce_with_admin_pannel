@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
 import '../shared/constants.dart';
 import '../shared/firebase_keys.dart';
-import '../../view/detail/detail_view.dart';
+import '../detail/detail_view.dart';
 import 'firebase_stream_viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final _store = FirebaseStreamViewmodel();
+  // final _store = FirebaseStreamViewmodel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _body(BuildContext context) {
-    return StreamBuilder(
+    final _store = Provider.of<FirebaseStreamViewmodel>(context);
+    return StreamBuilder<QuerySnapshot>(
       stream: _store.product(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
@@ -51,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
           child: TweenAnimationBuilder(
             curve: Curves.ease,
             tween: Tween<double>(begin: 0, end: 1),
-            duration: Duration(seconds: 3),
+            duration: Duration(seconds: 2),
             builder:
                 (BuildContext context, double valueOfOpacity, Widget child) {
               return Opacity(

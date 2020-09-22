@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import '../shared/theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:toast/toast.dart';
 import '../shared/constants.dart';
@@ -18,7 +19,39 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _body(context),
-      // TODO:add button to order
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _orderButton(context),
+    );
+  }
+
+  Widget _orderButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          // TODO: add order logic
+          print('object');
+        },
+        child: Container(
+          child: Center(
+            child: Text(
+              'ORDER NOW',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  .copyWith(color: textColor, fontFamily: 'hind'),
+            ),
+          ),
+          width: double.infinity,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -26,12 +59,12 @@ class _CartViewState extends State<CartView> {
     return StreamBuilder<List<CartProduct>>(
       stream: _cartViewModel.cartStream(context),
       initialData: [],
-      builder:(BuildContext context, AsyncSnapshot<List<CartProduct>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<CartProduct>> snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         if (snapshot.hasError) return Center(child: Text('Error 404'));
-        if (snapshot.hasData)
-          return _items(context, snapshot);
+        if (snapshot.hasData) return _items(context, snapshot);
         return Center(child: CircularProgressIndicator());
       },
     );
@@ -48,7 +81,7 @@ class _CartViewState extends State<CartView> {
           child: TweenAnimationBuilder(
             curve: Curves.ease,
             tween: Tween<double>(begin: 0, end: 1),
-            duration: Duration(seconds: 3),
+            duration: Duration(seconds: 2),
             builder: (BuildContext context, double valueOpacity, Widget child) {
               return Opacity(
                 opacity: valueOpacity,
@@ -86,7 +119,7 @@ class _CartViewState extends State<CartView> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
-                    _cartViewModel.deleteFromCart(e,context);
+                    _cartViewModel.deleteFromCart(e, context);
                   },
                 ),
               ],
@@ -127,7 +160,8 @@ class _CartViewState extends State<CartView> {
                     onPressed: () {
                       setState(() {
                         _countInMoor++;
-                        _cartViewModel.incressOne(e, e.countOfProduct = _countInMoor,context);
+                        _cartViewModel.incressOne(
+                            e, e.countOfProduct = _countInMoor, context);
                       });
                     },
                   ),
@@ -148,7 +182,8 @@ class _CartViewState extends State<CartView> {
                       setState(() {
                         if (_countInMoor > 1) {
                           _countInMoor--;
-                          _cartViewModel.decressOne(e, context, e.countOfProduct = _countInMoor);
+                          _cartViewModel.decressOne(
+                              e, context, e.countOfProduct = _countInMoor);
                         } else {
                           Toast.show('Can not decrement it', context);
                         }

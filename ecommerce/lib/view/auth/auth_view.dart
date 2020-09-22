@@ -1,5 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import '../../view/signin/signin_view.dart';
+import '../signin/signin_view.dart';
 import '../shared/widget/custom_button.dart';
 import '../shared/widget/reusable_backgraound_image.dart';
 import 'package:flutter/material.dart';

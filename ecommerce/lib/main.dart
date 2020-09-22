@@ -1,6 +1,7 @@
 import 'models/cart_model_database.dart';
 import 'view/cart/count_in_moor_provider.dart';
 import 'models/is_loding_provider.dart';
+import 'view/home/firebase_stream_viewmodel.dart';
 import 'view/navigation/bottom_navigation_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,10 +47,14 @@ class MyApp extends StatelessWidget {
             return CountInMoorProvider();
           },
         ),
+
         /// Singleton Design pattern
         Provider<CartDatabase>(
           create: (BuildContext context) => CartDatabase(),
           dispose: (BuildContext context, CartDatabase db) => db.close(),
+        ),
+        Provider<FirebaseStreamViewmodel>(
+          create: (_) => FirebaseStreamViewmodel(),
         ),
       ],
       child: MaterialApp(
