@@ -1,4 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import '../../models/order.dart';
+import '../shared/widget/custom_button.dart';
+import '../shared/widget/custom_message_sender_field.dart';
 import '../shared/theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:toast/toast.dart';
@@ -14,6 +18,19 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   final CartViewModel _cartViewModel = CartViewModel();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final Order _order = Order();
+  List<String> _productArray = [];
+  List<String> _realList = [];
+  bool _orderNow = false;
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _locationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +46,23 @@ class _CartViewState extends State<CartView> {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          // TODO: add order logic
-          print('object');
+          setState(() {
+            _orderNow = true;
+          });
+          _takeUserConfermatoin(context, () {
+            _order.add(
+              context: context,
+              userLocationValue: _locationController.text,
+              productNamesAndMuchofitAndpriceOfsigleOne:
+                  _realList.toSet().toList(),
+              // cartProduct: ,
+            );
+          });
+          Future.delayed(Duration(seconds: 1), () {
+            setState(() {
+              _orderNow = false;
+            });
+          });
         },
         child: Container(
           child: Center(
@@ -105,6 +137,12 @@ class _CartViewState extends State<CartView> {
 
   Widget _singleItem(BuildContext context, CartProduct e) {
     int _countInMoor = e.countOfProduct.toInt();
+    if (_orderNow == true) {
+      final String _productArrayString =
+          '${e.name} $_countInMoor ${e.price * _countInMoor}\$';
+      _productArray.add(_productArrayString);
+      _realList = _productArray.toSet().toList();
+    }
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -125,7 +163,7 @@ class _CartViewState extends State<CartView> {
               ],
               child: ListTile(
                 trailing: Text(
-                  '${e.price} \$',
+                  '${e.price * _countInMoor} \$',
                   style: titleStyle.copyWith(color: Colors.blueGrey),
                 ),
                 leading: ClipOval(
@@ -196,6 +234,63 @@ class _CartViewState extends State<CartView> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _takeUserConfermatoin(
+    BuildContext context,
+    Function order,
+  ) {
+    return showDialog(
+      context: context,
+      // user can close it by tap in any place
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Send Feed Back'),
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          // backgroundColor: Colors.black,
+          content: Form(
+            key: _key,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  CustomMessageSenderField(
+                    hint: 'YOUR LOCATION',
+                    controller: _locationController,
+                    icon: Icon(Icons.location_city),
+                    textFieldColor: Colors.teal.shade50,
+                    textInputType: TextInputType.text,
+                  ),
+                  CustomRadiusButton(
+                    onpress: () {
+                      if (_key.currentState.validate()) {
+                        order();
+                        _locationController.clear();
+                        Navigator.of(context).pop();
+                        Provider.of<CartDatabase>(context, listen: false)
+                            .deleteAllProducts();
+                      }
+                    },
+                    label: 'Send Message',
+                    color: Colors.teal,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

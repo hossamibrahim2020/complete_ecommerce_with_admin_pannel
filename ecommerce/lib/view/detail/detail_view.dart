@@ -165,8 +165,6 @@ class _DetailViewState extends State<DetailView> {
                 setState(() {
                   _added = true;
                 });
-                // print('$_added');
-                // print('${item.name}');
               }
             }
             if (_added != true) {

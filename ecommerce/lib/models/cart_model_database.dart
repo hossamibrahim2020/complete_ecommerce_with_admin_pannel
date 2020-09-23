@@ -22,8 +22,9 @@ class CartDatabase extends _$CartDatabase {
   @override
   int get schemaVersion => 1;
   Future insertProductToCart(CartProduct cartProduct) => into(cartProducts).insert(cartProduct);
-  Future<List<CartProduct>> getAllProductsFromCart()=> select(cartProducts).get();
-  Stream<List<CartProduct>> watchAllProductsInCart()=> select(cartProducts).watch();
-  Future updateProductInfo(CartProduct cartProduct)=> update(cartProducts).replace(cartProduct);
-  Future deleteProduct(CartProduct cartProduct)=> delete(cartProducts).delete(cartProduct);
+  Future<List<CartProduct>> getAllProductsFromCart() => select(cartProducts).get();
+  Stream<List<CartProduct>> watchAllProductsInCart() => select(cartProducts).watch();
+  Future updateProductInfo(CartProduct cartProduct) => update(cartProducts).replace(cartProduct);
+  Future deleteProduct(CartProduct cartProduct) => delete(cartProducts).delete(cartProduct);
+  Future deleteAllProducts() => delete(cartProducts).go();
 }
