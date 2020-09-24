@@ -43,7 +43,6 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
   Widget build(BuildContext context) {
     final _isLoding = Provider.of<IsLoding>(context);
     return Scaffold(
-      // TODO: add search for
       appBar: _isLoding.isLoding ? null : _appBar(context),
       body: _isLoding.isLoding
           ? Center(child: CircularProgressIndicator())

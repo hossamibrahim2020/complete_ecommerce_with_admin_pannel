@@ -250,7 +250,7 @@ class _CartViewState extends State<CartView> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('Send Feed Back'),
+              Text('Send Order'.toUpperCase()),
               IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
@@ -259,7 +259,6 @@ class _CartViewState extends State<CartView> {
               ),
             ],
           ),
-          // backgroundColor: Colors.black,
           content: Form(
             key: _key,
             child: SingleChildScrollView(
@@ -282,7 +281,7 @@ class _CartViewState extends State<CartView> {
                             .deleteAllProducts();
                       }
                     },
-                    label: 'Send Message',
+                    label: 'Order'.toUpperCase(),
                     color: Colors.teal,
                   ),
                 ],

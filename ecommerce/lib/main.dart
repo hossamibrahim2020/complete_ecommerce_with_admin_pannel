@@ -1,3 +1,5 @@
+import 'view/onbording/animated_container_provider.dart';
+import 'view/onbording/onboarding_view.dart';
 import 'models/cart_model_database.dart';
 import 'view/cart/count_in_moor_provider.dart';
 import 'models/is_loding_provider.dart';
@@ -15,13 +17,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences _prefs = await SharedPreferences.getInstance();
+  bool _seeOnboarding = _prefs.getBool('seeOnboarding');
   bool _seen = _prefs.getBool('seen');
   Widget screen = AuthView();
-  if (_seen == true) {
-    screen = BottomNavigationView();
-  } else if (_seen == false || _seen == null) {
-    screen = AuthView();
+  if (_seeOnboarding == null || _seeOnboarding == false) {
+    screen = OnBoardingView();
+  } else {
+    if (_seen == true) {
+      screen = BottomNavigationView();
+    } else if (_seen == false || _seen == null) {
+      screen = AuthView();
+    }
   }
+
   runApp(MyApp(screen));
 }
 
@@ -45,6 +53,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CountInMoorProvider>(
           create: (BuildContext context) {
             return CountInMoorProvider();
+          },
+        ),
+        ChangeNotifierProvider<AnimatedContainerProvider>(
+          create: (BuildContext context) {
+            return AnimatedContainerProvider();
           },
         ),
 
